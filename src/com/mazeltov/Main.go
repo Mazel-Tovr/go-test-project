@@ -7,8 +7,16 @@ import (
 	"fmt"
 )
 
+type MySuperMegaTyp int // type - like typealiase in kotlin
+
 func main() {
-	variables()
+	defer variables() // will be invoked in the end
+	anonFun := func(x int, z int) int { return x + z }
+	funWithAnonFun("Hello", anonFun)
+	withCircle()
+
+	var variable MySuperMegaTyp = 1
+	fmt.Println(variable)
 }
 
 func variables() {
@@ -64,3 +72,35 @@ const constantName string = "I am constant"
 
 // Global var can be also unused
 var globVar string
+
+func funWithAnonFun(x string, fun func(int, int) int) {
+	res := fun(1, 4)
+	fmt.Println(fmt.Sprintf("String %s Int %d", x, res))
+}
+
+func withCircle() {
+	var counter int
+
+	for i := 0; i > 10; i++ {
+		counter++
+	}
+
+	names := [...]string{"Sanya", "Egor", "Roma"}
+
+	for index, value := range names {
+		fmt.Println(fmt.Sprintf("Index %d; Value %s", index, value))
+	}
+}
+
+type user struct {
+	name string
+	age  int
+}
+
+func objectOperation() {
+	person := user{}
+
+	person.age = 10
+	person.name = "SerGay"
+
+}
