@@ -9,7 +9,7 @@ import (
 
 type MySuperMegaTyp int // type - like typealiase in kotlin
 
-func main() {
+func notMain() {
 	defer variables() // will be invoked in the end
 	anonFun := func(x int, z int) int { return x + z }
 	funWithAnonFun("Hello", anonFun)
