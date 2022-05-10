@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unicode/utf8"
+)
 
 type Person struct {
 	Id        int
@@ -16,7 +19,7 @@ type Address struct {
 	Home    string
 }
 
-func main() {
+func noMain() {
 	checkThisOut()
 }
 
@@ -44,6 +47,9 @@ func checkThisOut() {
 
 	objectCast(&person)
 	objectCast(&Animal{})
+
+	err := person.Read("This text is to long, must be error")
+	fmt.Println(err)
 }
 
 // This function useless , because we must do update on object point, but in this case we do on object copy
@@ -98,4 +104,30 @@ func objectCast(s Speakable) {
 		fmt.Println("Unknown type")
 	}
 
+}
+
+//toString() in go
+
+func (p *Person) String() string {
+	return fmt.Sprintf("Person Name=%s FirstName=%s Address: %T", p.Name, p.FirstName, p.Address2)
+}
+
+// interface composition
+
+type Humanable interface {
+	Speakable
+	Read(text string) error
+}
+
+func (p *Person) Read(text string) error {
+	if utf8.RuneCountInString(text) > 5 {
+		return MyCustomError{}
+	}
+	return nil
+}
+
+type MyCustomError struct{}
+
+func (MyCustomError) Error() string {
+	return "To long text error"
 }
